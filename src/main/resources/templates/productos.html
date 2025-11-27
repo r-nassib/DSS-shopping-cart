@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Productos</title></head>
+<body>
+<h1>Lista de Productos Agregados</h1>
+<a th:href="@{/products/add}">Añadir Productos</a>
+<a th:href="@{/cart}">Ir al carrito</a>
+<a th:href="@{/admin/export}">Exportar Productos</a>
+<form th:action="@{/products/search}" method="get">
+    <input type="text" name="name" placeholder="Buscar nombre" th:value="${param.name}" />
+    <input type="number" step="0.01" name="minPrice" placeholder="Precio mín" th:value="${param.minPrice}" />
+    <input type="number" step="0.01" name="maxPrice" placeholder="Precio máx" th:value="${param.maxPrice}" />
+    <button type="submit">Buscar</button>
+</form>
+<table>
+    <tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Acciones</th></tr>
+    <tr th:each="p : ${products}">
+        <td th:text="${p.id}"></td>
+        <td th:text=" ${p.name}"></td>
+        <td th:text="'€' + ${p.price}"></td>
+        <td>
+            <a th:href="@{'/products/edit/' + ${p.id}}">Editar</a>
+            <a th:href="@{'/products/delete/' + ${p.id}}">Eliminar</a>
+            <a th:href="@{'/cart/add/' + ${p.id}}">Añadir al Carrito</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
