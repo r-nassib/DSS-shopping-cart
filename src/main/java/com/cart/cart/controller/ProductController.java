@@ -18,7 +18,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public String list(Model model) {
+    public String listProducts(Model model) {
         model.addAttribute("products", productService.getAllProducts());
         return "productos";
     }
@@ -56,7 +56,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public String save(@ModelAttribute Product product) {
+    public String saveProduct(@ModelAttribute Product product) {
         productService.saveProduct(product);
         return "redirect:/products";
     }
@@ -71,7 +71,7 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return "redirect:/products";
     }
