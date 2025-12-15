@@ -33,13 +33,17 @@ public class ProductController {
         boolean hasPrice = minPrice != null && maxPrice != null;
 
         if (hasName && hasPrice) {
+            double min = minPrice != null ? minPrice : 0.0;
+            double max = maxPrice != null ? maxPrice : Double.MAX_VALUE;
             products = productService.searchByName(name).stream()
-                    .filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice)
+                    .filter(p -> p.getPrice() >= min && p.getPrice() <= max)
                     .toList();
         } else if (hasName) {
             products = productService.searchByName(name);
         } else if (hasPrice) {
-            products = productService.filterByPrice(minPrice, maxPrice);
+            double min = minPrice != null ? minPrice : 0.0;
+            double max = maxPrice != null ? maxPrice : Double.MAX_VALUE;
+            products = productService.filterByPrice(min, max);
         } else {
             products = productService.getAllProducts();
         }

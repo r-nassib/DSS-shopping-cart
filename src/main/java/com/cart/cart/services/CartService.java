@@ -20,10 +20,18 @@ public class CartService {
     }
 
     public void removeProduct(Long productId) {
-        cartItems.removeIf(p -> p.getId().equals(productId));
+        cartItems.removeIf(p -> {
+            return p.getId() != null && p.getId().equals(productId);
+        });
     }
 
     public void clear() {
         cartItems.clear();
+    }
+
+    public double getTotal() {
+        return cartItems.stream()
+                .mapToDouble(Product::getPrice)
+                .sum();
     }
 }

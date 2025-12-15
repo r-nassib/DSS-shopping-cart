@@ -18,16 +18,16 @@ public class DatabaseExportService {
         StringBuilder sb = new StringBuilder();
         
         // Add header comment
-        sb.append("-- Product Database Export\n");
-        sb.append("-- Generated SQL script\n\n");
+        sb.append("-- Exportación de la base de datos de productos de CompraGrana\n");
+        sb.append("-- Script SQL generado\n\n");
 
         if (products.isEmpty()) {
-            sb.append("-- No products found\n");
+            sb.append("-- No se han encontrado productos\n");
         } else {
             for (Product product : products) {
                 sb.append("INSERT INTO product (id, name, price) VALUES (")
                         .append(product.getId()).append(", ")
-                        .append("'").append(product.getName().replace("'", "''")).append("', ")
+                        .append("'").append(product.getName() != null ? product.getName().replace("'", "''") : "").append("', ")
                         .append(product.getPrice())
                         .append(");\n");
             }
