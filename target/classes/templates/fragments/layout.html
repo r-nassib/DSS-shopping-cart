@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">CompraGrana</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:fragment="navbar">
+    <div class="navbar">
+        <div class="brand">
+            <div class="brand-badge">CG</div>
+            <div>
+                <div>CompraGrana</div>
+                <small style="opacity:0.85;">Tu tienda en Granada</small>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a class="nav-link" th:href="@{/products}">Productos</a>
+            <a class="nav-link" th:href="@{/products/add}">Añadir</a>
+            <a class="nav-link" th:href="@{/cart}">Carrito</a>
+            <a class="nav-link" th:href="@{/admin/export}">Exportar</a>
+            <a class="nav-link" th:href="@{/login}">Login</a>
+        </nav>
+    </div>
+</header>
+
+<footer th:fragment="footer">
+    <div style="text-align:center; padding:20px; color:#6b6b6b; font-size:14px;">
+        CompraGrana · Granada, España
+    </div>
+</footer>
+</body>
+</html>
+

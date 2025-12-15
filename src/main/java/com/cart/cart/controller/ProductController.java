@@ -28,20 +28,11 @@ public class ProductController {
                                  @RequestParam(required = false) Double minPrice,
                                  @RequestParam(required = false) Double maxPrice,
                                  Model model) {
-        // #region agent log
-        try { java.io.FileWriter fw = new java.io.FileWriter("/Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/.cursor/debug.log", true); fw.write("{\"sessionId\":\"debug-session\",\"runId\":\"run1\",\"hypothesisId\":\"A\",\"location\":\"ProductController.java:27\",\"message\":\"searchProducts entry\",\"data\":{\"name\":\""+(name!=null?name:"null")+"\",\"minPrice\":"+(minPrice!=null?minPrice:"null")+",\"maxPrice\":"+(maxPrice!=null?maxPrice:"null")+"},\"timestamp\":"+System.currentTimeMillis()+"}\n"); fw.close(); } catch (Exception e) {}
-        // #endregion
         List<Product> products;
         boolean hasName = name != null && !name.isEmpty();
         boolean hasPrice = minPrice != null && maxPrice != null;
-        // #region agent log
-        try { java.io.FileWriter fw = new java.io.FileWriter("/Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/.cursor/debug.log", true); fw.write("{\"sessionId\":\"debug-session\",\"runId\":\"run1\",\"hypothesisId\":\"A\",\"location\":\"ProductController.java:34\",\"message\":\"hasPrice check\",\"data\":{\"hasPrice\":"+hasPrice+",\"minPrice\":"+(minPrice!=null?minPrice:"null")+",\"maxPrice\":"+(maxPrice!=null?maxPrice:"null")+"},\"timestamp\":"+System.currentTimeMillis()+"}\n"); fw.close(); } catch (Exception e) {}
-        // #endregion
 
         if (hasName && hasPrice) {
-            // #region agent log
-            try { java.io.FileWriter fw = new java.io.FileWriter("/Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/.cursor/debug.log", true); fw.write("{\"sessionId\":\"debug-session\",\"runId\":\"run1\",\"hypothesisId\":\"A\",\"location\":\"ProductController.java:36\",\"message\":\"filtering with prices\",\"data\":{\"minPrice\":"+minPrice+",\"maxPrice\":"+maxPrice+"},\"timestamp\":"+System.currentTimeMillis()+"}\n"); fw.close(); } catch (Exception e) {}
-            // #endregion
             double min = minPrice != null ? minPrice : 0.0;
             double max = maxPrice != null ? maxPrice : Double.MAX_VALUE;
             products = productService.searchByName(name).stream()
@@ -50,9 +41,6 @@ public class ProductController {
         } else if (hasName) {
             products = productService.searchByName(name);
         } else if (hasPrice) {
-            // #region agent log
-            try { java.io.FileWriter fw = new java.io.FileWriter("/Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/.cursor/debug.log", true); fw.write("{\"sessionId\":\"debug-session\",\"runId\":\"run1\",\"hypothesisId\":\"A\",\"location\":\"ProductController.java:42\",\"message\":\"filterByPrice call\",\"data\":{\"minPrice\":"+minPrice+",\"maxPrice\":"+maxPrice+"},\"timestamp\":"+System.currentTimeMillis()+"}\n"); fw.close(); } catch (Exception e) {}
-            // #endregion
             double min = minPrice != null ? minPrice : 0.0;
             double max = maxPrice != null ? maxPrice : Double.MAX_VALUE;
             products = productService.filterByPrice(min, max);

@@ -4,8 +4,6 @@ import com.cart.cart.model.Product;
 import com.cart.cart.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
