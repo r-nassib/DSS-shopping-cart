@@ -1,78 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>CompraGrana | Productos</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
-<header class="navbar">
-    <div class="brand">
-        <div class="brand-badge">CG</div>
-        <div>
-            <div>CompraGrana</div>
-            <small style="opacity:0.85;">Tu tienda en Granada</small>
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-badge">CG</div>
+            <div>
+                <div>CompraGrana</div>
+                <small style="opacity:0.85;">Tu tienda en Granada</small>
+            </div>
         </div>
-    </div>
-    <nav class="nav-links">
-        <a class="nav-link" th:href="@{/products}">Productos</a>
-        <a class="nav-link" th:href="@{/products/add}">Añadir</a>
-        <a class="nav-link" th:href="@{/cart}">Carrito</a>
-        <a class="nav-link" th:href="@{/admin/export}">Exportar</a>
-        <a class="nav-link" th:href="@{/login}">Login</a>
-    </nav>
-</header>
+        <nav class="nav-links">
+            <a class="nav-link" th:href="@{/products}">Productos</a>
+            <a class="nav-link" th:href="@{/products/add}">Añadir</a>
+            <a class="nav-link" th:href="@{/cart}">Carrito</a>
+            <a class="nav-link" th:href="@{/admin/export}">Exportar</a>
+            <a class="nav-link" th:href="@{/login}">Login</a>
+        </nav>
+    </header>
 
-<main class="page">
-    <section class="hero">
-        <h1>Catálogo CompraGrana</h1>
-        <p>Colores institucionales de Granada y una experiencia limpia y moderna.</p>
-    </section>
+    <main class="page">
+        <section class="hero">
+            <h1>Catálogo CompraGrana</h1>
+            <p>Los mejores productos para ti.</p>
+        </section>
 
-    <section class="card">
-        <div class="toolbar">
-            <a class="btn btn-primary" th:href="@{/products/add}">+ Añadir producto</a>
-            <a class="btn btn-ghost" th:href="@{/cart}">Ir al carrito</a>
-            <a class="btn btn-accent" th:href="@{/admin/export}">Exportar productos</a>
-        </div>
+        <section class="card">
+            <div class="toolbar">
+                <a class="btn btn-primary" th:href="@{/products/add}">+ Añadir producto</a>
+                <a class="btn btn-ghost" th:href="@{/cart}">Ir al carrito</a>
+                <a class="btn btn-accent" th:href="@{/admin/export}">Exportar productos</a>
+            </div>
 
-        <form class="form-grid" th:action="@{/products/search}" method="get">
-            <div class="field">
-                <label for="name">Buscar nombre</label>
-                <input type="text" name="name" id="name" placeholder="Ej: Aceite de oliva" th:value="${param.name}" />
-            </div>
-            <div class="field">
-                <label for="minPrice">Precio mín</label>
-                <input type="number" step="0.01" name="minPrice" id="minPrice" placeholder="0.00" th:value="${param.minPrice}" />
-            </div>
-            <div class="field">
-                <label for="maxPrice">Precio máx</label>
-                <input type="number" step="0.01" name="maxPrice" id="maxPrice" placeholder="999.99" th:value="${param.maxPrice}" />
-            </div>
-            <div class="field">
-                <label>&nbsp;</label>
-                <button class="btn btn-primary" type="submit">Buscar</button>
-            </div>
-        </form>
+            <form class="form-grid" th:action="@{/products/search}" method="get">
+                <div class="field">
+                    <label for="name">Buscar nombre</label>
+                    <input type="text" name="name" id="name" placeholder="Ej: Aceite de oliva"
+                        th:value="${param.name}" />
+                </div>
+                <div class="field">
+                    <label for="minPrice">Precio mín</label>
+                    <input type="number" step="0.01" name="minPrice" id="minPrice" placeholder="0.00"
+                        th:value="${param.minPrice}" />
+                </div>
+                <div class="field">
+                    <label for="maxPrice">Precio máx</label>
+                    <input type="number" step="0.01" name="maxPrice" id="maxPrice" placeholder="999.99"
+                        th:value="${param.maxPrice}" />
+                </div>
+                <div class="field">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+                </div>
+            </form>
 
-        <table>
-            <tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Acciones</th></tr>
-            <tr th:each="p : ${products}">
-                <td th:text="${p.id}"></td>
-                <td th:text="${p.name}"></td>
-                <td th:text="'€ ' + ${#numbers.formatDecimal(p.price, 1, 2)}"></td>
-                <td>
-                    <div class="actions">
-                        <a class="btn btn-ghost" th:href="@{'/products/edit/' + ${p.id}}">Editar</a>
-                        <a class="btn btn-danger" th:href="@{'/products/delete/' + ${p.id}}">Eliminar</a>
-                        <a class="btn btn-primary" th:href="@{'/cart/add/' + ${p.id}}">Añadir al Carrito</a>
-                    </div>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(products)}">
-                <td colspan="4" class="empty">Sin productos disponibles.</td>
-            </tr>
-        </table>
-    </section>
-</main>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+                <tr th:each="p : ${products}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.name}"></td>
+                    <td th:text="'€ ' + ${#numbers.formatDecimal(p.price, 1, 2)}"></td>
+                    <td>
+                        <div class="actions">
+                            <a class="btn btn-ghost" th:href="@{'/products/edit/' + ${p.id}}">Editar</a>
+                            <a class="btn btn-danger" th:href="@{'/products/delete/' + ${p.id}}">Eliminar</a>
+                            <a class="btn btn-primary" th:href="@{'/cart/add/' + ${p.id}}">Añadir al Carrito</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(products)}">
+                    <td colspan="4" class="empty">Sin productos disponibles.</td>
+                </tr>
+            </table>
+        </section>
+    </main>
 </body>
+
 </html>
