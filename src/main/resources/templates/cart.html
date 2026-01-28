@@ -1,38 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="fragments/layout :: head('CompraGrana | Carrito')"></head>
+
 <body>
-<header th:replace="fragments/layout :: navbar"></header>
+    <header th:replace="fragments/layout :: navbar"></header>
 
-<main class="page">
-    <section class="hero">
-        <h1>Carrito de Compra</h1>
-        <p>Revisa tus productos antes de finalizar.</p>
-    </section>
+    <main class="page">
+        <section class="hero">
+            <h1>Carrito de Compra</h1>
+            <p>Revisa tus productos antes de finalizar.</p>
+        </section>
 
-    <section class="card">
-        <table>
-            <tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Acciones</th></tr>
-            <tr th:each="item : ${cartItems}">
-                <td th:text="${item.id}"></td>
-                <td th:text="${item.name}"></td>
-                <td th:text="'€ ' + ${#numbers.formatDecimal(item.price, 1, 2)}"></td>
-                <td><a class="btn btn-danger" th:href="@{'/cart/remove/' + ${item.id}}">Eliminar</a></td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(cartItems)}">
-                <td colspan="4" class="empty">Tu carrito está vacío.</td>
-            </tr>
-        </table>
-        <div class="actions" style="margin-top:12px; justify-content: space-between; align-items: center;">
-            <div class="pill">Total: <span th:text="'€ ' + ${#numbers.formatDecimal(total, 1, 2)}"></span></div>
-            <div class="actions" style="gap:10px;">
-                <a class="btn btn-ghost" th:href="@{/products}">Seguir comprando</a>
-                <a class="btn btn-primary" th:href="@{/cart/clear}">Vaciar carrito</a>
+        <section class="card">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+                <tr th:each="item : ${cartItems}">
+                    <td th:text="${item.product.id}"></td>
+                    <td th:text="${item.product.name}"></td>
+                    <td th:text="'€ ' + ${#numbers.formatDecimal(item.product.price, 1, 2)}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="'€ ' + ${#numbers.formatDecimal(item.totalPrice, 1, 2)}"></td>
+                    <td><a class="btn btn-danger" th:href="@{'/cart/remove/' + ${item.product.id}}">Eliminar</a></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(cartItems)}">
+                    <td colspan="6" class="empty">Tu carrito está vacío.</td>
+                </tr>
+            </table>
+            <div class="actions" style="margin-top:12px; justify-content: space-between; align-items: center;">
+                <div class="pill">Total: <span th:text="'€ ' + ${#numbers.formatDecimal(total, 1, 2)}"></span></div>
+                <div class="actions" style="gap:10px;">
+                    <a class="btn btn-ghost" th:href="@{/products}">Seguir comprando</a>
+                    <a class="btn btn-primary" th:href="@{/cart/clear}">Vaciar carrito</a>
+                </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
 
-<footer th:replace="fragments/layout :: footer"></footer>
+    <footer th:replace="fragments/layout :: footer"></footer>
 </body>
+
 </html>

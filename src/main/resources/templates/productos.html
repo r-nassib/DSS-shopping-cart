@@ -73,7 +73,10 @@
                     <td>
                         <div class="actions">
                             <a class="btn btn-ghost" th:href="@{'/products/edit/' + ${p.id}}">Editar</a>
-                            <a class="btn btn-danger" th:href="@{'/products/delete/' + ${p.id}}">Eliminar</a>
+                            <form th:action="@{'/products/delete/' + ${p.id}}" th:method="delete"
+                                style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
                             <a class="btn btn-primary" th:href="@{'/cart/add/' + ${p.id}}">Añadir al Carrito</a>
                         </div>
                     </td>

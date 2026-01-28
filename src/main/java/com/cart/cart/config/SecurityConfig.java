@@ -3,9 +3,11 @@ package com.cart.cart.config;
 import com.cart.cart.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,27 +17,33 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, DaoAuthenticationProvider authenticationProvider) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, DaoAuthenticationProvider authenticationProvider)
+            throws Exception {
         http
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests
                             // More specific patterns first
-                            .requestMatchers("/products/add", "/products/edit/**", "/products/delete/**").hasAnyRole("ADMIN", "MANAGER")
+                            .requestMatchers("/products/add", "/products/edit/**", "/products/delete/**")
+                            .hasAnyRole("ADMIN", "MANAGER")
+                            .requestMatchers(HttpMethod.POST, "/products").hasAnyRole("ADMIN", "MANAGER")
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             // Public routes
-                            .requestMatchers("/", "/products", "/products/search", "/cart/**", "/login").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/products").permitAll()
+                            .requestMatchers("/", "/products/search", "/cart/**", "/login").permitAll()
                             // Everything else requires authentication
                             .anyRequest().authenticated();
                 })
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/h2-console/**"))
+                .headers(headers -> headers
+                        .frameOptions(FrameOptionsConfig::sameOrigin))
                 .authenticationProvider(authenticationProvider)
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .permitAll()
-                )
+                        .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                );
+                        .logoutSuccessUrl("/login?logout"));
         return http.build();
     }
 

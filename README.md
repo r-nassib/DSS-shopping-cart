@@ -21,6 +21,15 @@ CompraGrana es una aplicación web de carrito de compras para la ciudad de Grana
 ## Comandos de ejecución
 Desde el directorio raíz del proyecto:
 ```bash
+mvn clean package
+mvn clean install
+
+#Debugging Maven Build Failure ejecutar el comando para revisar los errores de compilación
+mvn clean package 
+
+#Restarting application to verify fix
+mvn spring-boot:run
+
 # Con Maven instalado
 mvn clean spring-boot:run
 

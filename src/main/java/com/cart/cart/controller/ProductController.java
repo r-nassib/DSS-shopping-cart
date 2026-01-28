@@ -4,7 +4,9 @@ import com.cart.cart.model.Product;
 import com.cart.cart.services.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,9 +27,9 @@ public class ProductController {
 
     @GetMapping("/search")
     public String searchProducts(@RequestParam(required = false) String name,
-                                 @RequestParam(required = false) Double minPrice,
-                                 @RequestParam(required = false) Double maxPrice,
-                                 Model model) {
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            Model model) {
         List<Product> products;
         boolean hasName = name != null && !name.isEmpty();
         boolean hasPrice = minPrice != null && maxPrice != null;
@@ -52,7 +54,6 @@ public class ProductController {
         return "productos";
     }
 
-
     @GetMapping("/add")
     public String addProductForm(Model model) {
         model.addAttribute("product", new Product());
@@ -68,13 +69,15 @@ public class ProductController {
     @GetMapping("/edit/{id}")
     public String editProduct(@PathVariable Long id, Model model) {
         System.out.println("Id del producto --> " + id);
-        Product product = productService.getProductById(id).orElse(new Product());
+        Product product = productService.getProductById(id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found with id: " + id));
         System.out.println("ID: " + product.getId());
         model.addAttribute("product", product);
         return "formulario-producto";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return "redirect:/products";
