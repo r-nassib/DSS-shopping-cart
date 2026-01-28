@@ -5,6 +5,7 @@
 /Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/src/main/java/com/cart/cart/controller/CartController.java
 /Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/src/main/java/com/cart/cart/controller/LoginController.java
 /Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/src/main/java/com/cart/cart/controller/ProductController.java
+/Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/src/main/java/com/cart/cart/model/CartItem.java
 /Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/src/main/java/com/cart/cart/model/Product.java
 /Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/src/main/java/com/cart/cart/model/Role.java
 /Users/raulhidalgo/Documents/MASTER-INGENIERIA-INFORMATICA/DSS/DSS-shopping-cart/src/main/java/com/cart/cart/model/User.java

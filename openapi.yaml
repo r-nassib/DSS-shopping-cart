@@ -1,0 +1,225 @@
+openapi: 3.0.3
+info:
+  title: CompraGrana API
+  description: API documentation for the CompraGrana Shopping Cart application.
+  version: 1.0.0
+  contact:
+    name: Raúl Hidalgo
+    email: rhidalgou2@gmail.com
+
+servers:
+  - url: http://localhost:8080
+    description: Local Development Server
+
+paths:
+  # --- Product Management ---
+  /products:
+    get:
+      summary: List all products
+      description: Returns a list of all available products.
+      tags:
+        - Products
+      responses:
+        '200':
+          description: A list of products
+          content:
+            text/html:
+              schema:
+                type: string
+                example: "<html>...</html>"
+    post:
+      summary: Save a product
+      description: Creates a new product or updates an existing one. Requires ADMIN or MANAGER role.
+      tags:
+        - Products
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                price:
+                  type: number
+                  format: double
+      responses:
+        '302':
+          description: Redirects to /products on success
+        '403':
+          description: Forbidden (insufficient permissions)
+
+  /products/search:
+    get:
+      summary: Search products
+      description: Search products by name and/or price range.
+      tags:
+        - Products
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+          description: Partial name to search for
+        - name: minPrice
+          in: query
+          schema:
+            type: number
+            format: double
+          description: Minimum price
+        - name: maxPrice
+          in: query
+          schema:
+            type: number
+            format: double
+          description: Maximum price
+      responses:
+        '200':
+          description: Filtered list of products
+
+  /products/add:
+    get:
+      summary: Show add product form
+      description: Displays the form to create a new product. Requires ADMIN or MANAGER role.
+      tags:
+        - Products
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: Product creation form HTML
+
+  /products/edit/{id}:
+    get:
+      summary: Show edit product form
+      description: Displays the form to edit an existing product. Requires ADMIN or MANAGER role.
+      tags:
+        - Products
+      security:
+        - basicAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the product to edit
+      responses:
+        '200':
+          description: Product edit form HTML
+        '404':
+          description: Product not found
+
+  /products/delete/{id}:
+    delete:
+      summary: Delete a product
+      description: Deletes a product by ID. Requires ADMIN or MANAGER role.
+      tags:
+        - Products
+      security:
+        - basicAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the product to delete
+      responses:
+        '302':
+          description: Redirects to /products on success
+
+  # --- Cart Management ---
+  /cart:
+    get:
+      summary: View cart
+      description: Displays the current user's shopping cart.
+      tags:
+        - Cart
+      responses:
+        '200':
+          description: Shopping cart view HTML
+
+  /cart/add/{id}:
+    get:
+      summary: Add to cart
+      description: Adds a product to the user's session cart.
+      tags:
+        - Cart
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the product to add
+      responses:
+        '302':
+          description: Redirects to /products on success
+
+  /cart/remove/{id}:
+    get:
+      summary: Remove from cart
+      description: Removes a product from the user's session cart.
+      tags:
+        - Cart
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the product to remove
+      responses:
+        '302':
+          description: Redirects to /cart on success
+
+  /cart/clear:
+    get:
+      summary: Clear cart
+      description: Removes all items from the cart.
+      tags:
+        - Cart
+      responses:
+        '302':
+          description: Redirects to /cart on success
+
+  # --- Admin ---
+  /admin/export:
+    get:
+      summary: Export database
+      description: Downloads the database as a SQL dump. Requires ADMIN role.
+      tags:
+        - Admin
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: SQL file download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+  # --- Auth ---
+  /login:
+    get:
+      summary: Login page
+      description: Displays the login form.
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: Login form HTML
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
